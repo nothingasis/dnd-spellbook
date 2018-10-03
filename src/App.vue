@@ -4,7 +4,7 @@
       <v-container>
         <v-layout row wrap align-center>
 
-          <v-flex xs12 md4>
+          <v-flex xs12 md5>
             <div class="text-xs-center">
               <v-avatar size="125px" tile>
                 <img src="@/assets/wizard-hat.png" class="mb-1">
@@ -12,10 +12,10 @@
                 <div class="headline">Wizards <span style="font-weight:bold">Spellbook</span></div>
                 <div class="subheading text-xs-center grey--text pt-1 pb-3">may the dice roll in your favor</div>
                 <v-layout justify-space-around>
-                  <a href="javascript:;" class="body-2">Home</a>
+                  <router-link to='/about'>Home</router-link>
                   <!-- TODO: Creating a settings component -->
                   <!-- <a href="javascript:;" class="body-2">Settings</a> -->
-                  <a href="javascript:;" class="body-2">Github</a>
+                  <a class="body-2" target="blank" href="https://github.com/nothingasis/dnd-spellbook">Github</a>
                 </v-layout>
             </div>
             <v-layout row wrap align-center>
@@ -23,9 +23,11 @@
             </v-layout>
           </v-flex>
 
-          <v-flex xs12 md5 offset-md2>
-            <div v-for="spell in spellbook" :key="spell.title">
-              <spell-card :spell="spell"></spell-card>
+          <v-spacer></v-spacer>
+
+          <v-flex xs12 md5>
+            <div>
+              <spell-card v-for="(spell, index) in spellbook" :key="index" :spell="spell" :index="spell._id"></spell-card>
             </div>
           </v-flex>
         </v-layout>
@@ -36,7 +38,7 @@
 
 <script>
 import SpellCard from '@/components/SpellCard.vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -44,13 +46,19 @@ export default {
     SpellCard
   },
   data() {
-    return {}
+    return {
+      page: 0
+    }
   },
   computed: {
     ...mapGetters(['spellSelected', 'spellbook'])
   },
+  created() {},
   methods: {
-    ...mapActions(['selectSpell'])
+    // ...mapActions(['selectSpell'])
+    handleSlideClick(dataset) {
+      console.log(dataset.index, dataset.name)
+    }
   }
 }
 </script>

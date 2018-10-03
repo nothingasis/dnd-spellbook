@@ -4,7 +4,7 @@
       <v-container fill-height fluid>
         <v-layout>
           <v-flex xs12 align-end d-flex>
-            <span class="headline">{{ spell.title }}</span>
+            <span class="headline">{{ spell.name }}</span>
           </v-flex>
         </v-layout>
       </v-container>
@@ -15,13 +15,13 @@
     <v-card-text>
       <v-layout row wrap>
         <v-flex xs6>
-          <b>Casting Time:</b>&nbsp;{{spell.castingtime}}
+          <b>Casting Time:</b>&nbsp;{{spell.casting_time}}
         </v-flex>
         <v-flex xs6>
           <b>Range:</b>&nbsp;{{spell.range}}
         </v-flex>
         <v-flex xs6>
-          <b>Components:</b>&nbsp;{{spell.components}}
+          <b>Components:</b>&nbsp;{{JSON.stringify(spell.components)}}
         </v-flex>
         <v-flex xs6>
           <b>Duration:</b>&nbsp;{{spell.duration}}
@@ -29,7 +29,7 @@
       </v-layout>
     </v-card-text>
     <v-card-actions>
-      <v-btn flat class="red--text" @click="selectSpell(spell)">
+      <v-btn flat class="red--text" v-if="canCast" @click="selectSpell(spell)">
         Cast Spell
       </v-btn>
       <v-spacer></v-spacer>
@@ -44,6 +44,7 @@ export default {
   name: 'SpellCard',
   props: {
     spell: { type: Object, required: true },
+    index: { type: String },
     canCast: { type: Boolean, default: true }
   },
   data() {
