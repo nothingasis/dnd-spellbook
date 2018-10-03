@@ -12,13 +12,16 @@
                 <div class="headline">Wizards <span style="font-weight:bold">Spellbook</span></div>
                 <div class="subheading text-xs-center grey--text pt-1 pb-3">may the dice roll in your favor</div>
                 <v-layout justify-space-around>
-                  <router-link to='/about'>Home</router-link>
+                  <a class="body-2">Home</a>
                   <!-- TODO: Creating a settings component -->
-                  <!-- <a href="javascript:;" class="body-2">Settings</a> -->
+                  <a class="body-2">Settings</a>
                   <a class="body-2" target="blank" href="https://github.com/nothingasis/dnd-spellbook">Github</a>
                 </v-layout>
             </div>
             <v-layout row wrap align-center>
+              <!-- <v-form> -->
+              <v-text-field v-model="spellsearch" label="Search For a Spell" required></v-text-field>
+              <!-- </v-form> -->
               <spell-card :spell="spellSelected" :canCast="false"></spell-card>
             </v-layout>
           </v-flex>
@@ -27,7 +30,7 @@
 
           <v-flex xs12 md5>
             <div>
-              <spell-card v-for="(spell, index) in spellbook" :key="index" :spell="spell" :index="spell._id"></spell-card>
+              <spell-card v-for="(spell, index) in filteredList.slice(0, 3)" :key="index" :spell="spell" :index="spell._id"></spell-card>
             </div>
           </v-flex>
         </v-layout>
@@ -47,11 +50,17 @@ export default {
   },
   data() {
     return {
-      page: 0
+      page: 0,
+      spellsearch: ''
     }
   },
   computed: {
-    ...mapGetters(['spellSelected', 'spellbook'])
+    ...mapGetters(['spellSelected', 'spellbook']),
+    filteredList() {
+      return this.spellbook.filter(spell => {
+        return spell.name.toLowerCase().includes(this.spellsearch.toLowerCase())
+      })
+    }
   },
   created() {},
   methods: {
