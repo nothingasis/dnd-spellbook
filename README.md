@@ -1,5 +1,8 @@
 # dnd-spellbook
 
+## Live
+http://dnd-spellbook.surge.sh/#/
+
 ## Project setup
 ```
 npm install
