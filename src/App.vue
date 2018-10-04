@@ -4,7 +4,7 @@
       <v-container>
         <v-layout row wrap align-center>
 
-          <v-flex d-flex xs12 sm6 md6>
+          <v-flex d-flex xs12 sm6 md4>
             <v-layout column wrap>
               <!-- Wizard Hat -->
               <v-flex d-flex>
@@ -32,6 +32,14 @@
                 <v-text-field v-model="spellsearch" label="Search For a Spell" required></v-text-field>
               </v-flex>
 
+              <!-- <v-flex d-flex>
+                <v-layout row wrap>
+                  <v-flex xs12 sm4 md4 v-for="(aClass, key) in classes" :key="key">
+                    <v-checkbox v-model="filterClass" :label="aClass" color="red" :value="aClass" hide-details></v-checkbox>
+                  </v-flex>
+                </v-layout>
+              </v-flex> -->
+
               <v-flex d-flex>
                 <spell-card :spell="spellSelected" :canCast="false"></spell-card>
               </v-flex>
@@ -51,20 +59,31 @@
 <script>
 import SpellCard from '@/components/SpellCard.vue'
 import { mapGetters } from 'vuex'
-import Home2 from './views/Home2.vue'
 
 export default {
   name: 'App',
   components: {
-    SpellCard,
-    Home2
+    SpellCard
   },
   data() {
     return {
+      filterClass: [],
+      classes: [
+        'Barbarian',
+        'Bard',
+        'Cleric',
+        'Druid',
+        'Fighter',
+        'Monk',
+        'Paladin',
+        'Ranger',
+        'Rogue',
+        'Sorcerer',
+        'Warlock',
+        'Wizard'
+      ],
       page: 0,
-      spellsearch: '',
-      lorem:
-        'Lorem ipsum dolor sit amet, mel at clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.'
+      spellsearch: ''
     }
   },
   computed: {
@@ -72,6 +91,10 @@ export default {
     filteredList() {
       return this.spellbook.filter(spell => {
         return spell.name.toLowerCase().includes(this.spellsearch.toLowerCase())
+        // spell.classes
+        //   .toString()
+        //   .toLowerCase()
+        //   .includes(this.filterClass.toString().toLowerCase())
       })
     }
   },
