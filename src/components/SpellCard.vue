@@ -1,6 +1,6 @@
 <template>
-  <v-card class="my-3" hover width="100%">
-    <v-responsive class="white--text">
+  <v-card class="my-3" hover width="50%">
+    <v-responsive class="black--text">
       <v-container fill-height fluid>
         <v-layout>
           <v-flex xs12 align-end d-flex>
