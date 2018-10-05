@@ -20,34 +20,38 @@
 
               <v-card-text @click="toggleView">
                 <v-layout row wrap>
-                  <v-flex d-flex>
-                    <b>
-                      Casting Time:
-                    </b>
-                    &nbsp;{{spell.casting_time}}
-                    <font-awesome-icon icon="clock" />&nbsp;
-                  </v-flex>&nbsp;
-                  <v-flex d-flex>
-                    <b>
-                      Range:</b>&nbsp;{{spell.range}}
-                    <font-awesome-icon icon="crosshairs" />&nbsp;
+                  <!-- <v-container> -->
+                  <v-flex>
+                    <v-flex d-flex>
+                      <b>
+                        <font-awesome-icon icon="clock" />
+                        Casting Time:
+                        <span style="font-weight:normal;">{{spell.casting_time}}</span>
+                      </b>
+                    </v-flex>
+                    <v-flex d-flex>
+                      <b>
+                        <font-awesome-icon icon="crosshairs" />
+                        Range:
+                        <span style="font-weight:normal;">{{spell.range}}</span>
+                      </b>
+                    </v-flex>
+                    <v-flex d-flex>
+                      <b>
+                        <font-awesome-icon icon="sitemap" />
+                        Components:
+                        <span style="font-weight:normal;">{{JSON.stringify(spell.components)}}</span>
+                      </b>
+                    </v-flex>
+                    <v-flex d-flex>
+                      <b>
+                        <font-awesome-icon icon="hourglass-start" />
+                        Duration:
+                        <span style="font-weight:normal;">{{spell.duration}}</span>
+                      </b>
+                    </v-flex>
                   </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                  <v-flex d-flex>
-                    <b>
-                      Components:
-                    </b>
-                    &nbsp;{{JSON.stringify(spell.components)}}
-                    <font-awesome-icon icon="sitemap" />&nbsp;
-                  </v-flex>
-                  <v-flex d-flex>
-                    <b>
-                      Duration:
-                    </b>
-                    &nbsp;{{spell.duration}}
-                    <font-awesome-icon icon="hourglass-start" />&nbsp;
-                  </v-flex>
+                  <!-- </v-container> -->
                 </v-layout>
               </v-card-text>
             </transition>
@@ -61,15 +65,20 @@
               </v-card-text>
             </transition>
             <v-card-actions>
-              <v-btn flat class="purple--text" v-if="canCast" @click="selectSpell(spell)">
-                <font-awesome-icon icon="magic" />&nbsp;Cast Spell&nbsp;
-              </v-btn>
-              <v-btn flat class="blue--text" v-if="canCast" @click="addCantrip(spell)">
-                <font-awesome-icon icon="plus" />&nbsp;Add Cantrip
-              </v-btn>
-              <v-btn flat class="teal--text" v-if="canCast" @click="addSpell(spell)">
-                <font-awesome-icon icon="folder-plus" />&nbsp;Add Spell
-              </v-btn>
+              <v-flex>
+                <v-btn flat class="purple--text" v-if="canCast" @click="selectSpell(spell)">
+                  <font-awesome-icon icon="magic" />&nbsp;
+                  Cast Spell
+                </v-btn>
+                <v-btn flat class="blue--text" v-if="canCast" @click="addCantrip(spell)">
+                  <font-awesome-icon icon="plus" />&nbsp;
+                  Add Cantrip
+                </v-btn>
+                <v-btn flat class="teal--text" v-if="canCast" @click="addSpell(spell)">
+                  <font-awesome-icon icon="folder-plus" />&nbsp;
+                  Add Spell
+                </v-btn>
+              </v-flex>
             </v-card-actions>
           </v-responsive>
         </v-card>
