@@ -28,14 +28,14 @@ npm run lint
 npm run test:unit
 ```
 
-### Features List
-- [X] Mobile-friendly
-- [X] Can search for spells
-- [X] Add Icons
-- [ ] Add more Icons...
+### To-Do List
+- [X] :iphone: Mobile-friendly
+- [X] :mag_right: Can search for spells
+- [X] :sunflower: Add Icons
+- [ ] :mortar_board: Add more Icons...
 - [ ] :crown: Master the art of Icons....
-- [ ] In Memory Database Loki.js
-- [ ] Pagination
+- [ ] :file_folder: In Memory Database Loki.js
+- [ ] :hash: Pagination
 - [ ] Search Filters
 - [ ] Cantrip and spell slot length based on size
 - [ ] Character Settings
