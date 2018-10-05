@@ -27,3 +27,12 @@ npm run lint
 ```
 npm run test:unit
 ```
+
+### Features List
+- [X] Mobile-friendly
+- [X] Can search for spells
+- [ ] Pagination
+- [ ] Search Filters
+- [ ] Cantrip and spell slot length based on size
+- [ ] Character Settings
+- [ ] Guided Spell Casting
