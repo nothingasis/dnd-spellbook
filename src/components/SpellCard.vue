@@ -1,84 +1,87 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-flex d-flex>
-        <v-card class="my-3" hover width="50%">
-          <v-responsive class="black--text">
-            <v-container fill-height fluid>
-              <v-layout>
-                <v-flex xs12 align-end d-flex>
-                  <span class="headline">{{ spell.name }}</span>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-responsive>
-          <v-card-title>
-            School of {{ spell.school.name }}
-          </v-card-title>
-          <v-responsive class="black--text">
-            <transition v-if="defaultView" name="slide-fade">
+  <!-- <v-container> -->
+  <!-- <v-layout> -->
+  <v-flex d-flex xs12 sm6 md4>
+    <v-card class="my-3" hover width="50%">
+      <v-responsive class="black--text">
+        <v-container fill-height fluid>
+          <v-layout>
+            <v-flex xs12 d-flex>
+              <span class="headline">{{ spell.name }}</span>
+              <span style="display: flex; justify-content: flex-end;" v-if="showing !== 'home'">
+                <font-awesome-icon icon="times" @click="removeSelected(spell)" />
+              </span>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-responsive>
+      <v-card-title>
+        School of {{ spell.school.name }}
+      </v-card-title>
+      <v-responsive class="black--text">
+        <transition v-if="defaultView" name="slide-fade">
 
-              <v-card-text @click="toggleView">
-                <v-layout row wrap>
-                  <v-flex>
-                    <v-flex d-flex>
-                      <b>
-                        <font-awesome-icon icon="clock" />
-                        Casting Time:
-                        <span style="font-weight:normal;">{{spell.casting_time}}</span>
-                      </b>
-                      <b>
-                        <font-awesome-icon icon="crosshairs" />
-                        Range:
-                        <span style="font-weight:normal;">{{spell.range}}</span>
-                      </b>
-                    </v-flex>
-                    <v-flex d-flex>
-                      <b>
-                        <font-awesome-icon icon="sitemap" />
-                        Components:
-                        <span style="font-weight:normal;">{{JSON.stringify(spell.components)}}</span>
-                      </b>
-                      <b>
-                        <font-awesome-icon icon="hourglass-start" />
-                        Duration:
-                        <span style="font-weight:normal;">{{spell.duration}}</span>
-                      </b>
-                    </v-flex>
-                  </v-flex>
-                </v-layout>
-              </v-card-text>
-            </transition>
-            <transition name="slide-fade">
-              <v-card-text @click="toggleView" v-if="!defaultView">
-                <v-layout row wrap>
-                  <v-flex>
-                    <p style="overflow:scroll; max-height:300px;">{{spell.desc.toString()}}</p>
-                  </v-flex>
-                </v-layout>
-              </v-card-text>
-            </transition>
-            <v-card-actions>
+          <v-card-text @click="toggleView">
+            <v-layout row wrap>
               <v-flex>
-                <v-btn flat class="purple--text" v-if="canCast" @click="selectSpell(spell)">
-                  <font-awesome-icon icon="magic" />&nbsp;
-                  Cast Spell
-                </v-btn>
-                <v-btn flat class="blue--text" v-if="canCast" @click="addCantrip(spell)">
-                  <font-awesome-icon icon="plus" />&nbsp;
-                  Add Cantrip
-                </v-btn>
-                <v-btn flat class="teal--text" v-if="canCast" @click="addSpell(spell)">
-                  <font-awesome-icon icon="folder-plus" />&nbsp;
-                  Add Spell
-                </v-btn>
+                <v-flex d-flex>
+                  <b>
+                    <font-awesome-icon icon="clock" />
+                    Casting Time:
+                    <span style="font-weight:normal;">{{spell.casting_time}}</span>
+                  </b>
+                  <b>
+                    <font-awesome-icon icon="crosshairs" />
+                    Range:
+                    <span style="font-weight:normal;">{{spell.range}}</span>
+                  </b>
+                </v-flex>
+                <v-flex d-flex>
+                  <b>
+                    <font-awesome-icon icon="sitemap" />
+                    Components:
+                    <span style="font-weight:normal;">{{JSON.stringify(spell.components)}}</span>
+                  </b>
+                  <b>
+                    <font-awesome-icon icon="hourglass-start" />
+                    Duration:
+                    <span style="font-weight:normal;">{{spell.duration}}</span>
+                  </b>
+                </v-flex>
               </v-flex>
-            </v-card-actions>
-          </v-responsive>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+            </v-layout>
+          </v-card-text>
+        </transition>
+        <transition name="slide-fade">
+          <v-card-text @click="toggleView" v-if="!defaultView">
+            <v-layout row wrap>
+              <v-flex>
+                <p style="overflow:scroll; max-height:300px;">{{spell.desc.toString()}}</p>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+        </transition>
+        <v-card-actions>
+          <v-flex>
+            <v-btn flat class="purple--text" v-if="canCast" @click="selectSpell(spell)">
+              <font-awesome-icon icon="magic" />&nbsp;
+              Cast Spell
+            </v-btn>
+            <v-btn flat class="blue--text" v-if="canCast" @click="addCantrip(spell)">
+              <font-awesome-icon icon="plus" />&nbsp;
+              Add Cantrip
+            </v-btn>
+            <v-btn flat class="teal--text" v-if="canCast" @click="addSpell(spell)">
+              <font-awesome-icon icon="folder-plus" />&nbsp;
+              Add Spell
+            </v-btn>
+          </v-flex>
+        </v-card-actions>
+      </v-responsive>
+    </v-card>
+  </v-flex>
+  <!-- </v-layout> -->
+  <!-- </v-container> -->
 </template>
 
 <script>
@@ -86,9 +89,11 @@ import { mapActions } from 'vuex'
 export default {
   name: 'SpellCard',
   props: {
+    showing: { type: String, required: true },
     spell: { type: Object, required: true },
     index: { type: String },
-    canCast: { type: Boolean, default: true }
+    canCast: { type: Boolean, default: true },
+    canRemove: { type: Boolean, default: true }
   },
   data() {
     return {
@@ -97,15 +102,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['selectSpell']),
+    ...mapActions(['selectSpell', 'addCantrip', 'addSpell', 'removeCantrip', 'removeSpell']),
     toggleView() {
       this.defaultView = !this.defaultView
     },
-    addCantrip() {
-      console.log('other stuff')
-    },
-    addSpell() {
-      console.log('Stuff')
+    removeSelected(spell) {
+      if (this.showing === 'cantrips') {
+        this.removeCantrip(spell)
+      }
+
+      if (this.showing === 'spellslots') {
+        this.removeSpell(spell)
+      }
     }
   }
 }

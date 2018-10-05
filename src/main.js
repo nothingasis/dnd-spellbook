@@ -11,7 +11,8 @@ import {
   faSitemap,
   faClock,
   faPlus,
-  faFolderPlus
+  faFolderPlus,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -29,7 +30,8 @@ library.add(
   faPuzzlePiece,
   faClock,
   faPlus,
-  faFolderPlus
+  faFolderPlus,
+  faTimes
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

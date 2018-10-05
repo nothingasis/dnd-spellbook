@@ -6,7 +6,6 @@
 
           <v-flex d-flex xs12 sm6 md4>
             <v-layout column wrap>
-              <!-- Wizard Hat -->
               <v-flex d-flex>
                 <v-avatar size="125px" tile>
                   <img src="@/assets/wizard-hat.png" class="mb-1">
@@ -22,8 +21,9 @@
 
               <v-flex d-flex>
                 <v-layout justify-space-around>
-                  <a class="body-2">Home</a>
-                  <a class="body-2">Settings</a>
+                  <a class="body-2" @click="showComponent('home')">Home</a>
+                  <a class="body-2" @click="showComponent('cantrips')">Cantrips</a>
+                  <a class="body-2" @click="showComponent('spellslots')">Spell Slots</a>
                   <a class="body-2" target="blank" href="https://github.com/nothingasis/dnd-spellbook">Github</a>
                 </v-layout>
               </v-flex>
@@ -33,26 +33,19 @@
               </v-flex>
 
               <!-- <v-flex d-flex>
-                <v-layout row wrap>
-                  <v-flex xs12 sm4 md4 v-for="(aClass, key) in classes" :key="key">
-                    <v-checkbox v-model="filterClass" :label="aClass" color="red" :value="aClass" hide-details></v-checkbox>
-                  </v-flex>
-                </v-layout>
-              </v-flex> -->
-
-              <v-flex d-flex>
                 <spell-card :spell="spellSelected" :canCast="false"></spell-card>
-              </v-flex>
+              </v-flex> -->
             </v-layout>
           </v-flex>
           <v-spacer></v-spacer>
-          <v-flex d-flex xs12 sm6 md4 v-for="(spell, index) in filteredList.slice(0, 6)" :key="index">
-            <spell-card :spell="spell" :index="spell._id"></spell-card>
-          </v-flex>
+          <!-- <v-flex d-flex xs12 sm6 md8> -->
+          <!-- <v-container> -->
+          <spell-card :spell="spell" :index="spell._id" v-for="(spell, index) in filteredList" :key="index" :showing="showing"></spell-card>
+          <!-- </v-container> -->
+          <!-- </v-flex> -->
         </v-layout>
       </v-container>
     </v-content>
-    <!-- <home-2></home-2> -->
   </v-app>
 </template>
 
@@ -67,6 +60,7 @@ export default {
   },
   data() {
     return {
+      showing: 'home',
       filterClass: [],
       classes: [
         'Barbarian',
@@ -87,15 +81,40 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['spellSelected', 'spellbook']),
+    ...mapGetters(['spellSelected', 'spellbook', 'cantrips', 'spellslots']),
     filteredList() {
-      return this.spellbook.filter(spell => {
-        return spell.name.toLowerCase().includes(this.spellsearch.toLowerCase())
-        // spell.classes
-        //   .toString()
-        //   .toLowerCase()
-        //   .includes(this.filterClass.toString().toLowerCase())
-      })
+      let filter = []
+      if (this.showing === 'home') {
+        filter = this.spellbook.filter(spell => {
+          return spell.name.toLowerCase().includes(this.spellsearch.toLowerCase())
+          // spell.classes
+          //   .toString()
+          //   .toLowerCase()
+          //   .includes(this.filterClass.toString().toLowerCase())
+        })
+      }
+
+      if (this.showing === 'cantrips') {
+        filter = this.cantrips.filter(spell => {
+          return spell.name.toLowerCase().includes(this.spellsearch.toLowerCase())
+          // spell.classes
+          //   .toString()
+          //   .toLowerCase()
+          //   .includes(this.filterClass.toString().toLowerCase())
+        })
+      }
+
+      if (this.showing === 'spellslots') {
+        filter = this.spellslots.filter(spell => {
+          return spell.name.toLowerCase().includes(this.spellsearch.toLowerCase())
+          // spell.classes
+          //   .toString()
+          //   .toLowerCase()
+          //   .includes(this.filterClass.toString().toLowerCase())
+        })
+      }
+
+      return filter
     }
   },
   created() {},
@@ -103,6 +122,9 @@ export default {
     // ...mapActions(['selectSpell'])
     handleSlideClick(dataset) {
       console.log(dataset.index, dataset.name)
+    },
+    showComponent(show) {
+      this.showing = show
     }
   }
 }
