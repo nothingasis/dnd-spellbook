@@ -31,6 +31,10 @@ npm run test:unit
 ### Features List
 - [X] Mobile-friendly
 - [X] Can search for spells
+- [X] Add Icons
+- [ ] Add more Icons...
+- [ ] Master the art of Icons....
+- [ ] In Memory Database Loki.js
 - [ ] Pagination
 - [ ] Search Filters
 - [ ] Cantrip and spell slot length based on size
