@@ -20,7 +20,6 @@
 
               <v-card-text @click="toggleView">
                 <v-layout row wrap>
-                  <!-- <v-container> -->
                   <v-flex>
                     <v-flex d-flex>
                       <b>
@@ -28,8 +27,6 @@
                         Casting Time:
                         <span style="font-weight:normal;">{{spell.casting_time}}</span>
                       </b>
-                    </v-flex>
-                    <v-flex d-flex>
                       <b>
                         <font-awesome-icon icon="crosshairs" />
                         Range:
@@ -42,8 +39,6 @@
                         Components:
                         <span style="font-weight:normal;">{{JSON.stringify(spell.components)}}</span>
                       </b>
-                    </v-flex>
-                    <v-flex d-flex>
                       <b>
                         <font-awesome-icon icon="hourglass-start" />
                         Duration:
@@ -51,7 +46,6 @@
                       </b>
                     </v-flex>
                   </v-flex>
-                  <!-- </v-container> -->
                 </v-layout>
               </v-card-text>
             </transition>
@@ -106,6 +100,12 @@ export default {
     ...mapActions(['selectSpell']),
     toggleView() {
       this.defaultView = !this.defaultView
+    },
+    addCantrip() {
+      console.log('other stuff')
+    },
+    addSpell() {
+      console.log('Stuff')
     }
   }
 }
