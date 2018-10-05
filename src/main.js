@@ -1,14 +1,40 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faCoffee,
+  faMagic,
+  faCrosshairs,
+  faHourglassStart,
+  faPuzzlePiece,
+  faSitemap,
+  faClock,
+  faPlus,
+  faFolderPlus
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import App from './App.vue'
 import router from './router'
 import store from './store/'
-import VueStroll from 'vue-stroll'
+
+library.add(
+  faCoffee,
+  faMagic,
+  faCrosshairs,
+  faHourglassStart,
+  faPuzzlePiece,
+  faSitemap,
+  faPuzzlePiece,
+  faClock,
+  faPlus,
+  faFolderPlus
+)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
-
-Vue.use(VueStroll)
 
 new Vue({
   router,

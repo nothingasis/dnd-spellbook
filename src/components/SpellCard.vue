@@ -21,19 +21,33 @@
               <v-card-text @click="toggleView">
                 <v-layout row wrap>
                   <v-flex d-flex>
-                    <b>Casting Time:</b>&nbsp;{{spell.casting_time}}
+                    <b>
+                      Casting Time:
+                    </b>
+                    &nbsp;{{spell.casting_time}}
+                    <font-awesome-icon icon="clock" />&nbsp;
                   </v-flex>&nbsp;
                   <v-flex d-flex>
-                    <b>Range:</b>&nbsp;{{spell.range}}
-                  </v-flex>&nbsp;
+                    <b>
+                      Range:</b>&nbsp;{{spell.range}}
+                    <font-awesome-icon icon="crosshairs" />&nbsp;
+                  </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                   <v-flex d-flex>
-                    <b>Components:</b>&nbsp;{{JSON.stringify(spell.components)}}
-                  </v-flex>&nbsp;
+                    <b>
+                      Components:
+                    </b>
+                    &nbsp;{{JSON.stringify(spell.components)}}
+                    <font-awesome-icon icon="sitemap" />&nbsp;
+                  </v-flex>
                   <v-flex d-flex>
-                    <b>Duration:</b>&nbsp;{{spell.duration}}
-                  </v-flex>&nbsp;
+                    <b>
+                      Duration:
+                    </b>
+                    &nbsp;{{spell.duration}}
+                    <font-awesome-icon icon="hourglass-start" />&nbsp;
+                  </v-flex>
                 </v-layout>
               </v-card-text>
             </transition>
@@ -47,8 +61,14 @@
               </v-card-text>
             </transition>
             <v-card-actions>
-              <v-btn flat class="red--text" v-if="canCast" @click="selectSpell(spell)">
-                Cast Spell
+              <v-btn flat class="purple--text" v-if="canCast" @click="selectSpell(spell)">
+                <font-awesome-icon icon="magic" />&nbsp;Cast Spell&nbsp;
+              </v-btn>
+              <v-btn flat class="blue--text" v-if="canCast" @click="addCantrip(spell)">
+                <font-awesome-icon icon="plus" />&nbsp;Add Cantrip
+              </v-btn>
+              <v-btn flat class="teal--text" v-if="canCast" @click="addSpell(spell)">
+                <font-awesome-icon icon="folder-plus" />&nbsp;Add Spell
               </v-btn>
             </v-card-actions>
           </v-responsive>

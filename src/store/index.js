@@ -13,7 +13,9 @@ export default new Vuex.Store({
     spellSelected: {},
     spellbook: SPELLBOOK,
     spellbookIDs: SPELLBOOKIDS,
-    allSpells: []
+    allSpells: [],
+    cantrip: [],
+    spellslots: []
   },
 
   /***********
