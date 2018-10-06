@@ -92,6 +92,8 @@ export default {
           //   .toLowerCase()
           //   .includes(this.filterClass.toString().toLowerCase())
         })
+
+        filter = filter.slice(0, 8)
       }
 
       if (this.showing === 'cantrips') {
