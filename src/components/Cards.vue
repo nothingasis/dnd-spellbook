@@ -23,13 +23,13 @@
       </v-flex>
       </v-layout>
       <v-layout row wrap>
-        <v-flex v-for="(card, key) in filteredList" :key="key">
+        <v-flex v-for="(card, key) in filteredList.slice(page * perpage, page * perpage + perpage)" :key="key">
           <v-card>
             <v-img src="https://i.pinimg.com/474x/81/11/10/81111081508e4e7bd138890ab2cdf9dd--holy-symbol-pathfinder-rpg.jpg" height="200px">
               <v-container fill-height fluid pa-2>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
-                    <span class="headline white--text" v-text="card.spell_name"></span>
+                    <span class="headline red--text" v-text="card.name"></span>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -54,13 +54,13 @@
             <v-card-actions>
               &nbsp;<span class="grey--text">{{card | removeAsterisks}}</span>
               <v-spacer></v-spacer>
-              <v-btn icon @click="toggleDesc(card.name)">
+              <v-btn icon @click="toggleShow(card.index)">
                 <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
               </v-btn>              
             </v-card-actions>
 
             <v-slide-y-transition>
-              <v-card-text :ref="card.name" v-html="card.desc">
+              <v-card-text v-if="card.show" v-html="card.desc">
               </v-card-text>
             </v-slide-y-transition>            
           </v-card>
@@ -73,11 +73,6 @@
           :length="numOfPages"
         ></v-pagination>
       </div>
-      <ul>
-        <li v-for="spell of SpellBook" :key="spell['.key']">
-          {{spell}}
-        </li>
-      </ul>
     </v-container>
   </v-layout>
 </template>
@@ -89,6 +84,7 @@ export default {
   created () {},
   mounted () {
     this.getSpellBook()
+    // this.uploadSpellBook()
   },
   data: () => ({
     lokiDB: '',
@@ -116,7 +112,7 @@ export default {
       // Filter down the list
       if (search) {
         filteredList = filteredList.filter(row => {
-          return String(row.spell_name).toLowerCase().indexOf(search) > -1
+          return String(row.name).toLowerCase().indexOf(search) > -1
         })
       }
 
@@ -125,14 +121,12 @@ export default {
 
       // I'm on page 13 and displaying 20
       // I should return 260 - 280
-      // return filteredList.slice(this.page * this.perpage, this.page * this.perpage + this.perpage)
       return filteredList
     },
     numOfPages () {
       // ** Number of Spells is determined by our filteredList
       // Number Of Pages = Number of Spells / Spells Per Page
       let numOfSpells = this.SpellBook.length
-      console.log('numOfSpells: ', numOfSpells)
       let numOfPages = Math.ceil(numOfSpells / this.perpage) // Round up in case displaying a singleton
       return numOfPages
     },
@@ -148,7 +142,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getSpellBook']),
+    ...mapActions(['getSpellBook', 'uploadSpellBook']),
     toggleDesc (spell) {
       console.log('Spell: ', spell)
       console.log(this.$refs[spell])

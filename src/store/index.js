@@ -12,7 +12,11 @@ export default new Vuex.Store({
     SpellBook: []
   },
   mutations: {
+    toggleShow: (state, index) => {
+      state.SpellBook[index].show = !state.SpellBook[index].show
+    },
     getSpellBook: (state, spell) => {
+      spell.show = false
       state.SpellBook.push(spell)
     }
   },
@@ -22,17 +26,23 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    toggleShow ({commit}, index) {
+      commit('toggleShow', index)
+    },
     getSpellBook ({commit}) {
-      db.collection('spells').get().then(spellsRef => {
+      db.collection('spells').orderBy('name', 'asc').get().then(spellsRef => {
         spellsRef.forEach(doc => {
           commit('getSpellBook', doc.data())
-          console.log(doc.data())// call data() to fetch data
+          // console.log(doc.data())// call data() to fetch data
         })
       })
     },
     uploadSpellBook () {
       spells.forEach((spell, index) => {
         db.collection('spells').add(spell)
+          .then(added => {
+            console.log('Added: ', added)
+          })
       })
     }
   },
