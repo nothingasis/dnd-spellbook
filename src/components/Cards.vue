@@ -23,7 +23,7 @@
       </v-flex>
       </v-layout>
       <v-layout row wrap>
-        <v-flex v-for="(card, key) in filteredList.slice(page * perpage, page * perpage + perpage)" :key="key">
+        <v-flex v-for="(card, key) in filteredList.slice((page - 1) * perpage, (page - 1) * perpage + perpage)" :key="key">
           <v-card>
             <v-img src="https://i.pinimg.com/474x/81/11/10/81111081508e4e7bd138890ab2cdf9dd--holy-symbol-pathfinder-rpg.jpg" height="200px">
               <v-container fill-height fluid pa-2>
@@ -112,7 +112,13 @@ export default {
       // Filter down the list
       if (search) {
         filteredList = filteredList.filter(row => {
-          return String(row.name).toLowerCase().indexOf(search) > -1
+          let match = String(row.name).toLowerCase().indexOf(search) > -1
+          if (match) {
+            console.log('Matched: ', row.name)
+          } else {
+            console.log('No Match: ', row.name)
+          }
+          return match
         })
       }
 
@@ -126,7 +132,7 @@ export default {
     numOfPages () {
       // ** Number of Spells is determined by our filteredList
       // Number Of Pages = Number of Spells / Spells Per Page
-      let numOfSpells = this.SpellBook.length
+      let numOfSpells = this.filteredList.length
       let numOfPages = Math.ceil(numOfSpells / this.perpage) // Round up in case displaying a singleton
       return numOfPages
     },
