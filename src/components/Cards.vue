@@ -45,16 +45,16 @@
                 <span><v-icon>build</v-icon>{{card.components}}</span>
               </div>
               <div>
-                <span><v-icon>timelapse</v-icon>{{card.casting_time}}</span>
+                <span><v-icon>timelapse</v-icon>{{card.casting_time}}{{card.concentration ? ' + concentration':''}}</span>
                 <span><v-icon>arrow_right_alt</v-icon>{{card.range}}</span>
               </div>
             </div>
           </v-card-title>
 
             <v-card-actions>
-              &nbsp;<span class="grey--text">{{card | removeAsterisks}}</span>
+              &nbsp;<span class="grey--text">{{card.level}} {{card.school}}</span>
               <v-spacer></v-spacer>
-              <v-btn icon @click="toggleShow(card.index)">
+              <v-btn icon @click="toggleShow(card.name)">
                 <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
               </v-btn>              
             </v-card-actions>
@@ -95,11 +95,11 @@ export default {
     search: ''
   }),
   filters: {
-    removeAsterisks (card) {
-      if (card.level) {
-        return card.level.replace(/\*/g, '')
+    removeAsterisks (value) {
+      if (typeof value === 'string') {
+        return value.replace(/\*/g, '')
       } else {
-        return card
+        return value
       }
     }
   },
@@ -112,21 +112,9 @@ export default {
       // Filter down the list
       if (search) {
         filteredList = filteredList.filter(row => {
-          let match = String(row.name).toLowerCase().indexOf(search) > -1
-          if (match) {
-            console.log('Matched: ', row.name)
-          } else {
-            console.log('No Match: ', row.name)
-          }
-          return match
+          return String(row.name).toLowerCase().indexOf(search) > -1
         })
       }
-
-      // Example: I'm on page 2 and displaying 10 per page
-      // I should return 20 - 30
-
-      // I'm on page 13 and displaying 20
-      // I should return 260 - 280
       return filteredList
     },
     numOfPages () {
@@ -148,11 +136,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getSpellBook', 'uploadSpellBook']),
-    toggleDesc (spell) {
-      console.log('Spell: ', spell)
-      console.log(this.$refs[spell])
-    },
+    ...mapActions(['getSpellBook', 'uploadSpellBook', 'toggleShow']),
     selectSpell (spell) {
       this.showdescription = true
       this.currentspell = spell

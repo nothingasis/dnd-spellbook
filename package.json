@@ -13,6 +13,7 @@
   "dependencies": {
     "firebase": "^5.8.4",
     "lokijs": "^1.5.6",
+    "throttle-debounce": "^2.1.0",
     "vue": "^2.5.2",
     "vue-flip": "^0.2.5",
     "vuefire": "^1.4.5",
