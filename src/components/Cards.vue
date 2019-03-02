@@ -14,7 +14,7 @@
         </v-flex>
         <v-flex xs2 sm2>
           <v-select
-            :items="[{label: 10, value: 10}, {label: 20, value: 20}, {label: 50, value: 50}, {label: 100, value: 100}, {label: 'All', value: SpellBook.length}]"
+            :items="[{label: 10, value: 10}, {label: 20, value: 20}, {label: 50, value: 50}, {label: 100, value: 100}, {label: 'All', value: filteredList.length}]"
             v-model="perpage"
             item-text="label"
             itme-value="value"
@@ -110,11 +110,13 @@ export default {
       let filteredList = this.SpellBook
 
       // Filter down the list
+      console.log('Start')
       if (search) {
         filteredList = filteredList.filter(row => {
           return String(row.name).toLowerCase().indexOf(search) > -1
         })
       }
+      console.log('Done')
       return filteredList
     },
     numOfPages () {
