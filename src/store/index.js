@@ -9,9 +9,33 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
-    SpellBook: []
+    search: '',
+    page: 1,
+    perPage: 10,
+    SpellBook: [],
+    filteredList: []
   },
   mutations: {
+    turnToPage: (state, page) => {
+      state.page = page
+    },
+    setPerPage: (state, perPage) => {
+      state.perPage = perPage
+    },
+    setSearchFilter: (state, search) => {
+      state.search = search
+
+      search = search.toLowerCase()
+      let filteredList = state.SpellBook
+
+      // Filter down the list
+      if (search) {
+        filteredList = filteredList.filter(row => {
+          return String(row.name).toLowerCase().indexOf(search) > -1
+        })
+      }
+      state.filteredList = filteredList
+    },
     toggleShow: (state, name) => {
       state.SpellBook.forEach(spell => {
         if (spell.name === name) {
@@ -22,14 +46,36 @@ export default new Vuex.Store({
     getSpellBook: (state, spell) => {
       spell.show = false
       state.SpellBook.push(spell)
+      state.filteredList.push(spell)
     }
   },
   getters: {
+    page: state => {
+      return state.page
+    },
+    perPage: state => {
+      return state.perPage
+    },
+    search: state => {
+      return state.search
+    },
     SpellBook: state => {
       return state.SpellBook
+    },
+    filteredList: state => {
+      return state.filteredList
     }
   },
   actions: {
+    turnToPage ({commit}, page) {
+      commit('turnToPage', page)
+    },
+    setPerPage ({commit}, perPage) {
+      commit('setPerPage', perPage)
+    },
+    setSearchFilter ({commit}, search) {
+      commit('setSearchFilter', search)
+    },
     toggleShow ({commit}, name) {
       commit('toggleShow', name)
     },
