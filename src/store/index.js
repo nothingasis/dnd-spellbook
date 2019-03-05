@@ -9,6 +9,8 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
+    spinning: false,
+    drawer: null,
     search: '',
     page: 1,
     perPage: 10,
@@ -16,6 +18,12 @@ export default new Vuex.Store({
     filteredList: []
   },
   mutations: {
+    startSpinner: (state) => {
+      state.spinning = true
+    },
+    stopSpinner: (state) => {
+      state.spinning = false
+    },
     turnToPage: (state, page) => {
       state.page = page
     },
@@ -36,6 +44,9 @@ export default new Vuex.Store({
       }
       state.filteredList = filteredList
     },
+    toggleDrawer: (state) => {
+      state.drawer = !state.drawer
+    },
     toggleShow: (state, name) => {
       state.SpellBook.forEach(spell => {
         if (spell.name === name) {
@@ -50,6 +61,12 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    spinning: state => {
+      return state.spinning
+    },
+    drawer: state => {
+      return state.drawer
+    },
     page: state => {
       return state.page
     },
@@ -67,6 +84,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    startSpinner ({commit}) {
+      commit('startSpinner')
+    },
+    stopSpinner ({commit}) {
+      commit('stopSpinner')
+    },
+    toggleDrawer ({commit}) {
+      commit('toggleDrawer')
+    },
     turnToPage ({commit}, page) {
       commit('turnToPage', page)
     },
@@ -79,12 +105,13 @@ export default new Vuex.Store({
     toggleShow ({commit}, name) {
       commit('toggleShow', name)
     },
-    getSpellBook ({commit}) {
-      db.collection('spells').orderBy('name', 'asc').get().then(spellsRef => {
-        spellsRef.forEach(doc => {
-          commit('getSpellBook', doc.data())
-        })
+    async getSpellBook ({commit}) {
+      commit('startSpinner')
+      let spellsRef = await db.collection('spells').orderBy('name', 'asc').get()
+      spellsRef.forEach(doc => {
+        commit('getSpellBook', doc.data())
       })
+      commit('stopSpinner')
     },
     uploadSpellBook () {
       spells.forEach((spell, index) => {
