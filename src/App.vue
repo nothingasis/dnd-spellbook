@@ -2,7 +2,7 @@
   <v-app id="app">
     <!-- Top Toolbar -->
     <toolbar></toolbar>
-
+    
     <!-- Side Navigation Bar -->
     <side-navigation></side-navigation>
 
@@ -40,9 +40,3 @@
     }
   }
 </script>
-
-<style lang="stylus">
-  #app
-    .v-navigation-drawer__border
-      display: none
-</style>

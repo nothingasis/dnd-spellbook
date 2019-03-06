@@ -9,6 +9,9 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
+    filter: {
+      class: '*'
+    },
     spinning: false,
     drawer: null,
     search: '',
@@ -18,6 +21,17 @@ export default new Vuex.Store({
     filteredList: []
   },
   mutations: {
+    setQueryFilter: (state, queryfilter) => {
+      // Iterate through filter's keys
+      Object.keys(state.filter).find(filterkey => {
+        // Set it if the key matches the secondObject's key
+        Object.keys(queryfilter).forEach(querykey => {
+          if (filterkey === querykey) {
+            state.filter[filterkey] = queryfilter[querykey]
+          }
+        })
+      })
+    },
     startSpinner: (state) => {
       state.spinning = true
     },
@@ -32,7 +46,6 @@ export default new Vuex.Store({
     },
     setSearchFilter: (state, search) => {
       state.search = search
-
       search = search.toLowerCase()
       let filteredList = state.SpellBook
 
@@ -61,6 +74,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    filter: state => {
+      return state.filter
+    },
     spinning: state => {
       return state.spinning
     },
@@ -84,6 +100,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setQueryFilter ({commit}, queryfilter) {
+      commit('setQueryFilter', queryfilter)
+    },
     startSpinner ({commit}) {
       commit('startSpinner')
     },

@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer  fixed clipped class="grey lighten-4" app>
+  <!-- <v-navigation-drawer fixed clipped class="grey lighten-4" app>
     <v-list dense class="grey lighten-4">
       <template v-for="(item, i) in items">
         <v-layout v-if="item.heading" :key="i" row align-center>
@@ -25,6 +25,64 @@
         </v-list-tile>
       </template>
     </v-list>
+  </v-navigation-drawer>   -->
+  <v-navigation-drawer
+    fixed
+    clipped
+    class="grey lighten-4"
+    app
+  >
+    <v-list>
+      <v-list-tile>
+        <v-list-tile-action>
+          <v-icon>book</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-title>SpellBook</v-list-tile-title>
+      </v-list-tile>
+
+      <v-list-group
+        prepend-icon="account_circle"
+        value="true"
+      >
+        <template slot='activator'>
+          <v-list-tile>
+            <v-list-tile-title>Class Spells</v-list-tile-title>
+          </v-list-tile>
+        </template>
+        <!-- <v-list-group
+          no-action
+          sub-group
+          value="true"
+        >
+          <template slot='activator'>
+            <v-list-tile>
+              <v-list-tile-title>Admin</v-list-tile-title>
+            </v-list-tile>
+          </template>
+
+          <v-list-tile
+            v-for="(admin, i) in admins"
+            :key="i"
+            @click=""
+          >
+            <v-list-tile-title v-text="admin[0]"></v-list-tile-title>
+            <v-list-tile-action>
+              <v-icon v-text="admin[1]"></v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list-group> -->
+          <v-list-tile
+            v-for="(object, key) in Classes"
+            :key="key"
+            @click="setQueryFilter(object)"
+          >
+            <v-list-tile-action>
+              <v-icon>{{object.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title v-text="object.class"></v-list-tile-title>
+          </v-list-tile>
+      </v-list-group>
+    </v-list>
   </v-navigation-drawer>  
 </template>
 
@@ -34,24 +92,15 @@ export default {
   name: 'SideNavigation',
   data () {
     return {
-      items: [
-        { icon: 'book', text: 'Spellbook' },
-        { divider: true },
-        { heading: 'Class Spells' },
-        { icon: 'bookmark', text: 'Bard' },
-        { icon: 'bookmark', text: 'Cleric' },
-        { icon: 'bookmark', text: 'Druid' },
-        { icon: 'bookmark', text: 'Paladin' },
-        { icon: 'bookmark', text: 'Ranger' },
-        { icon: 'bookmark', text: 'Sorcerer' },
-        { icon: 'bookmark', text: 'Warlock' },
-        { icon: 'bookmark', text: 'Wizard' },
-        { divider: true },
-        { icon: 'history', text: 'History' },
-        { icon: 'delete', text: 'Trash' },
-        { divider: true },
-        { icon: 'settings', text: 'Settings' },
-        { icon: 'help', text: 'Help' }
+      Classes: [
+        {class: 'Bard', icon: 'fa-guitar'},
+        {class: 'Cleric', icon: 'fa-medkit'},
+        {class: 'Druid', icon: 'fa-leaf'},
+        {class: 'Paladin', icon: 'fa-shield-alt'},
+        {class: 'Ranger', icon: 'fa-bullseye'},
+        {class: 'Sorcerer', icon: 'fa-moon'},
+        {class: 'Warlock', icon: 'fa-magic'},
+        {class: 'Wizard', icon: 'fa-hat-wizard'}
       ]
     }
   },
@@ -63,7 +112,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleDrawer'])
+    ...mapActions(['toggleDrawer', 'setQueryFilter'])
   }
 }
 </script>
