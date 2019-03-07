@@ -9,9 +9,9 @@
             </v-subheader>
           </v-flex>
         </v-layout>
-        
+
         <v-divider v-else-if="item.divider" :key="i" dark class="my-3"></v-divider>
-        
+
         <v-list-tile v-else :key="i" @click="">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -27,6 +27,7 @@
     </v-list>
   </v-navigation-drawer>   -->
   <v-navigation-drawer
+    v-model="drawer"
     fixed
     clipped
     class="grey lighten-4"
@@ -74,7 +75,8 @@
           <v-list-tile
             v-for="(object, key) in Classes"
             :key="key"
-            @click="setQueryFilter(object)"
+            @click="setQueryFilter(object.class)"
+            :style="object.class === filter ? 'font-weight: bold; color: #1867c0':''"
           >
             <v-list-tile-action>
               <v-icon>{{object.icon}}</v-icon>
@@ -83,7 +85,7 @@
           </v-list-tile>
       </v-list-group>
     </v-list>
-  </v-navigation-drawer>  
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -105,7 +107,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['drawer']),
+    ...mapGetters(['drawer', 'filter']),
     drawerValue: {
       set (value) { this.toggleDrawer() },
       get () { return this.drawer }

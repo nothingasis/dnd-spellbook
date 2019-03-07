@@ -22,15 +22,28 @@ export default new Vuex.Store({
   },
   mutations: {
     setQueryFilter: (state, queryfilter) => {
-      // Iterate through filter's keys
-      Object.keys(state.filter).find(filterkey => {
-        // Set it if the key matches the secondObject's key
-        Object.keys(queryfilter).forEach(querykey => {
-          if (filterkey === querykey) {
-            state.filter[filterkey] = queryfilter[querykey]
-          }
+      // // Iterate through filter's keys
+      // Object.keys(state.filter).find(filterkey => {
+      //   // Set it if the key matches the secondObject's key
+      //   Object.keys(queryfilter).forEach(querykey => {
+      //     if (filterkey === querykey) {
+      //       state.filter[filterkey] = queryfilter[querykey]
+      //     }
+      //   })
+      // })
+      state.spinning = true
+      state.filter = queryfilter
+      queryfilter = queryfilter.toLowerCase()
+      let filteredList = state.SpellBook
+
+      // Filter down the list
+      if (queryfilter) {
+        filteredList = filteredList.filter(row => {
+          return String(row.class).toLowerCase().indexOf(queryfilter) > -1
         })
-      })
+      }
+      state.filteredList = filteredList
+      state.spinning = false
     },
     startSpinner: (state) => {
       state.spinning = true
@@ -101,7 +114,10 @@ export default new Vuex.Store({
   },
   actions: {
     setQueryFilter ({commit}, queryfilter) {
+      commit('startSpinner')
       commit('setQueryFilter', queryfilter)
+      commit('toggleDrawer')
+      commit('stopSpinner')
     },
     startSpinner ({commit}) {
       commit('startSpinner')
