@@ -25,7 +25,7 @@
               <div>
                 <div>
                   <span><v-icon>timer</v-icon>{{card.duration}}</span>
-                  <span><v-icon>build</v-icon>{{card.components}}</span>
+                  <span><v-icon>build</v-icon>{{card.components}} {{card.material ? `(${card.material})`:''}}</span>
                 </div>
                 <div>
                   <span><v-icon>timelapse</v-icon>{{card.casting_time}}{{card.concentration ? ' + concentration':''}}</span>
@@ -39,13 +39,13 @@
                 <v-spacer></v-spacer>
                 <v-btn icon @click="toggleShow(card.name)">
                   <v-icon>{{ card.show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                </v-btn>              
+                </v-btn>
               </v-card-actions>
 
               <v-slide-y-transition>
                 <v-card-text v-if="card.show" v-html="card.desc">
                 </v-card-text>
-              </v-slide-y-transition>            
+              </v-slide-y-transition>
             </v-card>
           </v-flex>
         </v-layout>
