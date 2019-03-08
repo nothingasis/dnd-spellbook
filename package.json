@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "dexie": "^2.0.4",
     "firebase": "^5.8.4",
     "lokijs": "^1.5.6",
     "throttle-debounce": "^2.1.0",

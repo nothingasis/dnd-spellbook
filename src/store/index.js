@@ -9,10 +9,8 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
-    filter: {
-      class: '*'
-    },
-    levelfilter: 'All',
+    filter: '*',
+    levelFilter: 'All',
     spinning: false,
     drawer: null,
     search: '',
@@ -22,17 +20,24 @@ export default new Vuex.Store({
     filteredList: []
   },
   mutations: {
-    setLevelFilter: (state, levelfilter) => {
-      state.spinning = true
-      state.levelfilter = levelfilter
-      levelfilter = levelfilter.toLowerCase()
+    setLevelFilter: (state, levelFilter) => {
+      state.levelFilter = levelFilter
+      levelFilter = levelFilter.toLowerCase()
+      let filteredList = state.SpellBook
 
-      if (levelfilter !== 'All') {
-        state.filteredList = state.filteredList.filter(row => {
-          return String(row.level).toLowerCase().indexOf(levelfilter) > -1
+      if (state.filter !== '*') {
+        filteredList = filteredList.filter(row => {
+          return String(row.class).indexOf(state.filter) > -1
         })
       }
-      state.spinning = false
+
+      if (levelFilter !== 'all') {
+        filteredList = state.SpellBook.filter(row => {
+          return String(row.level).toLowerCase().indexOf(levelFilter) > -1
+        })
+      }
+
+      state.filteredList = filteredList
     },
     setQueryFilter: (state, queryfilter) => {
       state.filter = queryfilter
@@ -89,8 +94,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    levelfilter: state => {
-      return state.levelfilter
+    levelFilter: state => {
+      return state.levelFilter
     },
     filter: state => {
       return state.filter
@@ -118,6 +123,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setLevelFilter ({commit}, levelfilter) {
+      commit('startSpinner')
+      commit('setLevelFilter', levelfilter)
+      setTimeout(() => {
+        commit('stopSpinner')
+      }, 300)
+    },
     setQueryFilter ({commit}, queryfilter) {
       commit('startSpinner')
       commit('setQueryFilter', queryfilter)

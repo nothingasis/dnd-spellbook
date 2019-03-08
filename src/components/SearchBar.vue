@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs8 sm8>
-      <v-text-field flat hide-details v-model="searchFilter" label="Search" prepend-inner-icon="search">
+      <v-text-field flat hide-details v-model="searchFilterValue" label="Search" prepend-inner-icon="search">
       </v-text-field>
     </v-flex>
     <v-flex xs2 sm2>
@@ -9,7 +9,7 @@
       </v-select>
     </v-flex>
     <v-flex xs2 sm2>
-      <v-select :items="SpellLevels" v-model="value" label="Spell Level">
+      <v-select :items="SpellLevels" v-model="levelFilterValue" label="Spell Level">
       </v-select>
     </v-flex>
   </v-layout>
@@ -21,12 +21,11 @@ export default {
   name: 'SearchBar',
   data () {
     return {
-      value: 'All',
-      SpellLevels: ['All', '1st-level', '2nd-level', '3rd-level', '4th-level', '5th-level', '6th-level', '7th-level', '8th-level', '9th-level', '10th-level']
+      SpellLevels: ['All', 'Cantrip', '1st-level', '2nd-level', '3rd-level', '4th-level', '5th-level', '6th-level', '7th-level', '8th-level', '9th-level', '10th-level']
     }
   },
   computed: {
-    ...mapGetters(['search', 'page', 'perPage', 'filteredList']),
+    ...mapGetters(['search', 'page', 'perPage', 'filteredList', 'levelFilter']),
     perPageOptions () {
       return [
         {label: 'All', value: this.filteredList.length},
@@ -40,17 +39,25 @@ export default {
       set (perPage) { this.setPerPage(perPage) },
       get () { return this.perPage }
     },
-    searchFilter: {
+    searchFilterValue: {
       set (value) {
         this.setSearchFilter(value)
       },
       get () {
         return this.search
       }
+    },
+    levelFilterValue: {
+      set (value) {
+        this.setLevelFilter(value)
+      },
+      get () {
+        return this.levelFilter
+      }
     }
   },
   methods: {
-    ...mapActions(['setPerPage', 'setSearchFilter'])
+    ...mapActions(['setPerPage', 'setSearchFilter', 'setLevelFilter'])
   }
 }
 </script>
