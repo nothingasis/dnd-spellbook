@@ -34,7 +34,7 @@
     app
   >
     <v-list>
-      <v-list-tile>
+      <v-list-tile @click="setQueryFilter('*')" :style="filter === '*' ? 'font-weight: bold; color: #1867c0':''">
         <v-list-tile-action>
           <v-icon>book</v-icon>
         </v-list-tile-action>
