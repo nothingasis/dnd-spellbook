@@ -12,6 +12,7 @@ export default new Vuex.Store({
     filter: {
       class: '*'
     },
+    levelfilter: 'All',
     spinning: false,
     drawer: null,
     search: '',
@@ -21,6 +22,18 @@ export default new Vuex.Store({
     filteredList: []
   },
   mutations: {
+    setLevelFilter: (state, levelfilter) => {
+      state.spinning = true
+      state.levelfilter = levelfilter
+      levelfilter = levelfilter.toLowerCase()
+
+      if (levelfilter !== 'All') {
+        state.filteredList = state.filteredList.filter(row => {
+          return String(row.level).toLowerCase().indexOf(levelfilter) > -1
+        })
+      }
+      state.spinning = false
+    },
     setQueryFilter: (state, queryfilter) => {
       // // Iterate through filter's keys
       // Object.keys(state.filter).find(filterkey => {
@@ -31,7 +44,6 @@ export default new Vuex.Store({
       //     }
       //   })
       // })
-      state.spinning = true
       state.filter = queryfilter
       queryfilter = queryfilter.toLowerCase()
       let filteredList = state.SpellBook
@@ -43,7 +55,6 @@ export default new Vuex.Store({
         })
       }
       state.filteredList = filteredList
-      state.spinning = false
     },
     startSpinner: (state) => {
       state.spinning = true
@@ -87,6 +98,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    levelfilter: state => {
+      return state.levelfilter
+    },
     filter: state => {
       return state.filter
     },
@@ -117,7 +131,9 @@ export default new Vuex.Store({
       commit('startSpinner')
       commit('setQueryFilter', queryfilter)
       commit('toggleDrawer')
-      commit('stopSpinner')
+      setTimeout(() => {
+        commit('stopSpinner')
+      }, 300)
     },
     startSpinner ({commit}) {
       commit('startSpinner')
