@@ -2,7 +2,7 @@
   <v-app id="app">
     <!-- Top Toolbar -->
     <toolbar></toolbar>
-    
+
     <!-- Side Navigation Bar -->
     <side-navigation></side-navigation>
 

@@ -43,7 +43,10 @@
               </v-card-actions>
 
               <v-slide-y-transition>
-                <v-card-text v-if="card.show" v-html="card.desc">
+                <v-card-text v-if="card.show" v-html="
+                `${card.desc} \n
+                 <h2>${JSON.stringify(card)}</h2>`
+                ">
                 </v-card-text>
               </v-slide-y-transition>
             </v-card>
@@ -69,7 +72,7 @@ export default {
   data: () => ({}),
   filters: {},
   computed: {
-    ...mapGetters(['spinning', 'SpellBook', 'search', 'filteredList', 'page', 'perPage']),
+    ...mapGetters(['spinning', 'SpellBook', 'search', 'filteredList', 'perPage', 'page']),
     displayRangeStart () { return (this.page - 1) * this.perPage },
     displayRangeEnd () { return (this.page - 1) * this.perPage + this.perPage },
     pageValue: {
@@ -82,7 +85,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleShow', 'turnToPage'])
+    ...mapActions(['setPerPage', 'toggleShow', 'turnToPage'])
   }
 }
 </script>

@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     filter: '*',
     levelFilter: 'All',
+    schoolFilter: 'All',
     spinning: false,
     drawer: null,
     search: '',
@@ -20,20 +21,83 @@ export default new Vuex.Store({
     filteredList: []
   },
   mutations: {
-    setLevelFilter: (state, levelFilter) => {
-      state.levelFilter = levelFilter
-      levelFilter = levelFilter.toLowerCase()
-      let filteredList = state.SpellBook
+    setSearchFilter: (state, search) => {
+      // Search: [{ filter: String, value: String }, {...}, {...}]}
+      state.search = search
+      search = search.toLowerCase()
 
-      if (state.filter !== '*') {
+      let filteredList = state.SpellBook
+      if (search !== '') {
         filteredList = filteredList.filter(row => {
-          return String(row.class).indexOf(state.filter) > -1
+          return String(row.name).toLowerCase().indexOf(search) > -1
         })
       }
 
+      state.filteredList = filteredList
+    },
+    setLevelFilter: (state, levelFilter) => {
+      state.levelFilter = levelFilter
+      levelFilter = levelFilter.toLowerCase()
+
+      // Start filteredList over
+      let filteredList = state.SpellBook
+
+      // Filter first by name
+      if (state.search) {
+        filteredList = filteredList.filter(row => {
+          return String(row.name).toLowerCase().indexOf(state.search.toLowerCase()) > -1
+        })
+      }
+      // Then by Class
+      if (state.filter !== '*') {
+        filteredList = filteredList.filter(row => {
+          return String(row.class).toLowerCase().indexOf(state.filter.toLowerCase()) > -1
+        })
+      }
+      // Then by School
+      if (state.schoolFilter.toLowerCase() !== 'all') {
+        filteredList = filteredList.filter(row => {
+          return String(row.school).toLowerCase().indexOf(state.schoolFilter.toLowerCase()) > -1
+        })
+      }
+      // Then by level
       if (levelFilter !== 'all') {
-        filteredList = state.SpellBook.filter(row => {
+        filteredList = filteredList.filter(row => {
           return String(row.level).toLowerCase().indexOf(levelFilter) > -1
+        })
+      }
+
+      state.filteredList = filteredList
+    },
+    setSchoolFilter: (state, schoolFilter) => {
+      state.schoolFilter = schoolFilter
+      schoolFilter = schoolFilter.toLowerCase()
+
+      // Start filteredList over
+      let filteredList = state.SpellBook
+
+      // Filter first by name
+      if (state.search) {
+        filteredList = filteredList.filter(row => {
+          return String(row.name).toLowerCase().indexOf(state.search.toLowerCase()) > -1
+        })
+      }
+      // Then by Class
+      if (state.filter !== '*') {
+        filteredList = filteredList.filter(row => {
+          return String(row.class).toLowerCase().indexOf(state.filter.toLowerCase()) > -1
+        })
+      }
+      // Then by Level
+      if (state.levelFilter.toLowerCase() !== 'all') {
+        filteredList = filteredList.filter(row => {
+          return String(row.level).toLowerCase().indexOf(state.levelFilter.toLowerCase()) > -1
+        })
+      }
+      // Then by the school
+      if (schoolFilter !== 'all') {
+        filteredList = filteredList.filter(row => {
+          return String(row.school).toLowerCase().indexOf(schoolFilter) > -1
         })
       }
 
@@ -64,19 +128,6 @@ export default new Vuex.Store({
     setPerPage: (state, perPage) => {
       state.perPage = perPage
     },
-    setSearchFilter: (state, search) => {
-      state.search = search
-      search = search.toLowerCase()
-      let filteredList = state.SpellBook
-
-      // Filter down the list
-      if (search) {
-        filteredList = filteredList.filter(row => {
-          return String(row.name).toLowerCase().indexOf(search) > -1
-        })
-      }
-      state.filteredList = filteredList
-    },
     toggleDrawer: (state) => {
       state.drawer = !state.drawer
     },
@@ -94,6 +145,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    schoolFilter: state => {
+      return state.schoolFilter
+    },
     levelFilter: state => {
       return state.levelFilter
     },
@@ -123,20 +177,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setLevelFilter ({commit}, levelfilter) {
-      commit('startSpinner')
-      commit('setLevelFilter', levelfilter)
-      setTimeout(() => {
-        commit('stopSpinner')
-      }, 300)
+    setSearchFilter ({commit}, search) {
+      commit('setSearchFilter', search)
     },
-    setQueryFilter ({commit}, queryfilter) {
-      commit('startSpinner')
-      commit('setQueryFilter', queryfilter)
-      commit('toggleDrawer')
-      setTimeout(() => {
-        commit('stopSpinner')
-      }, 300)
+    setLevelFilter ({commit}, levelFilter) {
+      commit('setLevelFilter', levelFilter)
+    },
+    setSchoolFilter ({commit}, schoolFilter) {
+      commit('setSchoolFilter', schoolFilter)
+    },
+    setQueryFilter ({commit}, data) {
+      commit('setQueryFilter', data)
     },
     startSpinner ({commit}) {
       commit('startSpinner')
@@ -152,9 +203,6 @@ export default new Vuex.Store({
     },
     setPerPage ({commit}, perPage) {
       commit('setPerPage', perPage)
-    },
-    setSearchFilter ({commit}, search) {
-      commit('setSearchFilter', search)
     },
     toggleShow ({commit}, name) {
       commit('toggleShow', name)

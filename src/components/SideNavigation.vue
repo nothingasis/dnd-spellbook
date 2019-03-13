@@ -43,7 +43,7 @@
 
       <v-list-group
         prepend-icon="account_circle"
-        value="true"
+        :value="filter !== '*'"
       >
         <template slot='activator'>
           <v-list-tile>
