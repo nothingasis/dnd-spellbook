@@ -1,10 +1,7 @@
 <template>
   <v-app id="app">
-    <!-- Top Toolbar -->
-    <toolbar></toolbar>
-
-    <!-- Side Navigation Bar -->
-    <side-navigation></side-navigation>
+    <!-- Navigation Bar -->
+    <navigation-bar></navigation-bar>
 
     <v-content>
       <!-- Main Body Content -->
@@ -15,14 +12,12 @@
 </template>
 
 <script>
-  import Toolbar from './components/Toolbar.vue'
-  import SideNavigation from './components/SideNavigation.vue'
+  import NavigationBar from './components/NavigationBar.vue'
   import Cards from './components/Cards.vue'
   import { mapActions, mapGetters } from 'vuex'
   export default {
     components: {
-      Toolbar,
-      SideNavigation,
+      NavigationBar,
       Cards
     },
     created () {

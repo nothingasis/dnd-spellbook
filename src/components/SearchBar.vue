@@ -1,19 +1,19 @@
 <template>
   <v-container fluid>
     <v-layout row wrap>
-      <v-flex fluid>
+      <v-flex xs12 sm12>
         <v-text-field flat hide-details v-model="searchFilterValue" label="Search" prepend-inner-icon="search">
         </v-text-field>
       </v-flex>
-      <v-flex xs2 sm2>
+      <v-flex xs4 sm4>
         <v-select :items="SpellLevels" v-model="levelFilterValue" label="Spell Level">
         </v-select>
       </v-flex>
-      <v-flex xs2 sm2>
+      <v-flex xs4 sm4>
         <v-select :items="SchoolsOfMagic" v-model="schoolFilterValue" label="Schools of Magic">
         </v-select>
       </v-flex>
-      <v-flex xs2 sm2 mx-4>
+      <v-flex xs4 sm4>
         <v-select :items="perPageOptions" v-model="perPageValue" item-text="label" item-value="value" label="Per Page">
         </v-select>
       </v-flex>

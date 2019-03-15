@@ -43,11 +43,7 @@
               </v-card-actions>
 
               <v-slide-y-transition>
-                <v-card-text v-if="card.show" v-html="
-                `${card.desc} \n
-                 <h2>${JSON.stringify(card)}</h2>`
-                ">
-                </v-card-text>
+                <v-card-text v-if="card.show" v-html="card.desc"></v-card-text>
               </v-slide-y-transition>
             </v-card>
           </v-flex>
